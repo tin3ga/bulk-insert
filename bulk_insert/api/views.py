@@ -1,16 +1,33 @@
-from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.response import Response
-from .models import ProductVariant,Product
+from .models import ProductVariant, Product
 from .serializers import ProductVariantSerializer, ProductSerializer
 
 
 # Create your views here.
 
-class ProductListCreate(generics.ListCreateAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
 
-class ProductVariantListCreate(generics.ListCreateAPIView):
-    queryset = ProductVariant.objects.all()
+class ProductViewSet(viewsets.ModelViewSet):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.get_queryset()
+
+    def create(self, request, *args, **kwargs):
+        many = isinstance(request.data, list)
+        serializer = self.get_serializer(data=request.data, many=many)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, headers=headers)
+
+
+class ProductVariantViewSet(viewsets.ModelViewSet):
     serializer_class = ProductVariantSerializer
+    queryset = ProductVariant.objects.get_queryset()
+
+    def create(self, request, *args, **kwargs):
+        many = isinstance(request.data, list)
+        serializer = self.get_serializer(data=request.data, many=many)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, headers=headers)

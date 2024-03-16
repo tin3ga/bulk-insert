@@ -1,7 +1,10 @@
-from .models import Product
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
 from rest_framework import status
+
+from .models import Product
 
 
 # Create your tests here.
@@ -12,7 +15,16 @@ class ProductTestCase(APITestCase):
     """
 
     def setUp(self):
+        self.user = User.objects.create_user(
+            username='test',
+            password='simple_test_password',
+            email='test@test.com'
+        )
+        # Set up token authentication
+        self.token = Token.objects.get(user=self.user)
         self.client = APIClient()
+        # Pass the token in all calls to the API
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
         self.data = {
             "name": "Product 1",
             "image": "",

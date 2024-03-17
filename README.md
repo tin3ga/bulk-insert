@@ -87,8 +87,8 @@ $ python manage.py runserver
 curl --request POST \
   --url http://127.0.0.1:8000/api-token-auth/ \
   --header 'content-type: multipart/form-data' \
-  --form username=test \
-  --form password=forgotmypassword
+  --form username=**your username** \
+  --form password=**your password**
   
 ```
 
@@ -97,7 +97,7 @@ curl --request POST \
 ```
 curl --request POST \
   --url http://127.0.0.1:8000/products/ \
-  --header 'AUTHORIZATION: Token 69f5440d17d4772c12cff8043d66d288f18d037d' \
+  --header 'AUTHORIZATION: Token **your token**' \
   --header 'Content-Type: application/json' \
   --header 'User-Agent: insomnia/8.6.1' \
   --data '[
@@ -125,7 +125,7 @@ curl --request POST \
 ```
 curl --request POST \
   --url http://127.0.0.1:8000/product_variants/ \
-  --header 'AUTHORIZATION: Token 69f5440d17d4772c12cff8043d66d288f18d037d' \
+  --header 'AUTHORIZATION: Token **your token**' \
   --header 'Content-Type: application/json' \
   --header 'User-Agent: insomnia/8.6.0' \
   --data '[
